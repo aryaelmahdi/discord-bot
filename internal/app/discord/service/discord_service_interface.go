@@ -1,7 +1,7 @@
 package service
 
 import (
-	"discord-bot/internal/app/discord_commands/repository"
+	"discord-bot/internal/app/discord/repository"
 	"discord-bot/internal/model/web"
 
 	"github.com/go-playground/validator"
@@ -16,8 +16,9 @@ type DiscordServiceImpl struct {
 	Validate   *validator.Validate
 }
 
-func NewDiscordService(validator *validator.Validate) DiscordService {
+func NewDiscordService(repo repository.DiscordRepository, validator *validator.Validate) DiscordService {
 	return &DiscordServiceImpl{
-		Validate: validator,
+		Repository: repo,
+		Validate:   validator,
 	}
 }

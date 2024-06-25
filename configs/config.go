@@ -16,7 +16,8 @@ type MySQLConfig struct {
 }
 
 type BotToken struct {
-	Token string
+	Token  string
+	Prefix string
 }
 
 type AppConfig struct {
@@ -40,7 +41,8 @@ func InitConfig() (*AppConfig, error) {
 			Database: os.Getenv("DB_NAME"),
 		},
 		BotToken: BotToken{
-			Token: os.Getenv("BOT_TOKEN"),
+			Token:  os.Getenv("BOT_TOKEN"),
+			Prefix: os.Getenv("BOT_PREFIX"),
 		},
 	}, nil
 }

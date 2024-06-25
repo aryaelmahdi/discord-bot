@@ -22,6 +22,7 @@ func main() {
 		return
 	}
 
+	sess.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	sess.AddHandler(discord.MessageCreate)
 	fmt.Println("session handler added")
 	defer sess.Close()
@@ -31,8 +32,7 @@ func main() {
 		return
 	}
 
-	sess.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
 }

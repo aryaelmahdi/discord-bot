@@ -19,10 +19,10 @@ func InitDiscord(config *configs.BotToken) (*discordgo.Session, error) {
 
 func OpenSession(client *discordgo.Session) error {
 	if err := client.Open(); err != nil {
-		fmt.Println("cannot open discord session : " + err.Error())
+		fmt.Println("Cannot open Discord session: " + err.Error())
 		return err
 	}
-	fmt.Println("session opened")
+	fmt.Println("Session opened")
 	return nil
 }
 
@@ -30,8 +30,11 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-
+	fmt.Println("Message received from " + m.Author.Username + ": " + m.Content)
 	if m.Content == "hello" {
-		s.ChannelMessageSend(m.ChannelID, "Hello")
+		_, err := s.ChannelMessageSend(m.ChannelID, "Hello")
+		if err != nil {
+			fmt.Println("Error sending message: ", err)
+		}
 	}
 }

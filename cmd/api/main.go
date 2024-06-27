@@ -18,6 +18,7 @@ func main() {
 		fmt.Println("cannot initialize config : " + err.Error())
 	}
 
+	// c := cron.New()
 	validate := validator.New()
 
 	sess, err := discord.InitDiscord(&config.BotToken)
@@ -26,7 +27,7 @@ func main() {
 	}
 
 	fmt.Println("prefix ", config.BotToken.Prefix)
-	app.InitApp(validate, sess, config.BotToken.Prefix)
+	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium)
 
 	defer sess.Close()
 

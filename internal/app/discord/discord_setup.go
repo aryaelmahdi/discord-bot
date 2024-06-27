@@ -1,6 +1,7 @@
 package discord
 
 import (
+	"discord-bot/configs"
 	"discord-bot/internal/app/discord/handler"
 	"discord-bot/internal/app/discord/repository"
 	"discord-bot/internal/app/discord/routes"
@@ -10,10 +11,10 @@ import (
 	"github.com/go-playground/validator"
 )
 
-func DiscordSetup(validator *validator.Validate, sess *discordgo.Session, prefix string) routes.DiscordRoutes {
+func DiscordSetup(validator *validator.Validate, sess *discordgo.Session, prefix string, selenium *configs.SeleniumConfig) routes.DiscordRoutes {
 	repo := repository.NewDiscordRepository()
 	service := service.NewDiscordService(repo, validator)
-	handler := handler.NewDiscordHandler(service, prefix)
+	handler := handler.NewDiscordHandler(service, prefix, selenium)
 	route := routes.NewDiscordRoutes(handler)
 	return route
 }

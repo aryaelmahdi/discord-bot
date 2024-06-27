@@ -33,7 +33,7 @@ func (handler *DiscordHandlerImpl) DiscordCommandHandler(s *discordgo.Session, m
 
 	if args[1] == "help" {
 		fmt.Println("args hello")
-		s.ChannelMessageSend(m.ChannelID, "Use 'digidaw login <username> <password>' to do login")
+		s.ChannelMessageSend(m.ChannelID, "Use 'digidaw login <username> <password> <class>' to do login")
 		return
 	}
 
@@ -48,22 +48,6 @@ func (handler *DiscordHandlerImpl) DiscordCommandHandler(s *discordgo.Session, m
 		class := args[4]
 		fmt.Println("username, pass, class", username, password, class)
 		s.ChannelMessageSend(m.ChannelID, "wait a sec yea?")
-		// cron job
-		// _, err := handler.Cron.AddFunc("* * * * *", func() {
-		// 	if err := handler.RunBot(username, password); err != nil {
-		// 		fmt.Println("error :", err)
-		// 		if strings.Contains(err.Error(), "cannot find present button") {
-		// 			s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
-		// 			return
-		// 		}
-		// 		s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
-		// 		return
-		// 	}
-		// 	s.ChannelMessageSend(m.ChannelID, "your status is now present. thank me later dog.")
-		// })
-		// if err != nil {
-		// 	log.Fatalf("Error scheduling cron job: %v", err)
-		// }
 		request := web.DiscordRegister{
 			Username: username,
 			Password: password,

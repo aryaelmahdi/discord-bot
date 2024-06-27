@@ -14,7 +14,7 @@ type DiscordHandler interface {
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
 	DiscordCommandHandler(s *discordgo.Session, m *discordgo.MessageCreate)
 	RunBot(username, password string) error
-	AutomatedLogin(s *discordgo.Session, m *discordgo.MessageCreate)
+	AutomatedLogin6A(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 type DiscordHandlerImpl struct {

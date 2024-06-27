@@ -9,6 +9,7 @@ import (
 type DiscordRepository interface {
 	Register(request *domain.Users) error
 	IsExists(username string) bool
+	GetAllUsers() []domain.Users
 }
 
 type DiscordRepositoryImpl struct {

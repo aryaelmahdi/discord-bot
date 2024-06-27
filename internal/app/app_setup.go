@@ -13,5 +13,5 @@ import (
 
 func InitApp(db *gorm.DB, validator *validator.Validate, sess *discordgo.Session, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron, caps selenium.Capabilities) {
 	discordRoute := discordRoutesPkg.DiscordSetup(db, validator, sess, prefix, selenium, cron, caps)
-	discordRoute.InitRoutes(sess)
+	discordRoute.InitRoutes(sess, cron)
 }

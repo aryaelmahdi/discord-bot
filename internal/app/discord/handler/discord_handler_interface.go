@@ -12,8 +12,9 @@ import (
 type DiscordHandler interface {
 	// Login(s *discordgo.Session, i *discordgo.InteractionCreate) error
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
-	MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate)
+	DiscordCommandHandler(s *discordgo.Session, m *discordgo.MessageCreate)
 	RunBot(username, password string) error
+	AutomatedLogin(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 type DiscordHandlerImpl struct {

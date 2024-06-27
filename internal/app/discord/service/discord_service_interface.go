@@ -2,6 +2,7 @@ package service
 
 import (
 	"discord-bot/internal/app/discord/repository"
+	"discord-bot/internal/model/domain"
 	"discord-bot/internal/model/web"
 
 	"github.com/go-playground/validator"
@@ -9,6 +10,7 @@ import (
 
 type DiscordService interface {
 	Register(request *web.DiscordRegister) error
+	GetAllUsers() ([]domain.Users, error)
 }
 
 type DiscordServiceImpl struct {

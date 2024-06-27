@@ -6,6 +6,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/robfig/cron/v3"
+	"github.com/tebeka/selenium"
 )
 
 type DiscordHandler interface {
@@ -20,13 +21,15 @@ type DiscordHandlerImpl struct {
 	Prefix         string
 	SeleniumConfig *configs.SeleniumConfig
 	Cron           *cron.Cron
+	Caps           selenium.Capabilities
 }
 
-func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron) DiscordHandler {
+func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron, caps selenium.Capabilities) DiscordHandler {
 	return &DiscordHandlerImpl{
 		Service:        service,
 		Prefix:         prefix,
 		SeleniumConfig: selenium,
 		Cron:           cron,
+		Caps:           caps,
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"discord-bot/configs"
 	"discord-bot/internal/app"
 	"discord-bot/internal/infrastructure/discord"
+	"discord-bot/internal/infrastructure/selenium"
 	"fmt"
 	"os"
 	"os/signal"
@@ -23,6 +24,11 @@ func main() {
 	defer c.Stop()
 
 	validate := validator.New()
+	selService, caps, err := selenium.InitSelenium(&config.Selenium)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer selService.Stop()
 
 	// db, err := mysql.NewMySQLConnection(&config.MySQL)
 	// if err != nil {
@@ -35,7 +41,7 @@ func main() {
 	}
 
 	fmt.Println("prefix ", config.BotToken.Prefix)
-	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium, c)
+	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium, c, caps)
 
 	c.Start()
 

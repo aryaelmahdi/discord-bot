@@ -2,28 +2,17 @@ package handler
 
 import (
 	"fmt"
-	"log"
-	"strconv"
 	"time"
 
 	"github.com/tebeka/selenium"
 )
 
-func (handler *DiscordHandlerImpl) RunBot(username, password string) error {
-	cdPort, _ := strconv.Atoi(handler.SeleniumConfig.ChromeDriverPort)
-	caps := selenium.Capabilities{"browserName": "chrome"}
-	service, err := selenium.NewChromeDriverService(handler.SeleniumConfig.ChromeDriverPath, cdPort)
-	if err != nil {
-		log.Fatalf("Error starting the ChromeDriver server: %v", err)
-	}
-	defer service.Stop()
-
-	driver, err := selenium.NewRemote(caps, fmt.Sprintf("http://%s:%s/wd/hub", handler.SeleniumConfig.ChromeDriverIP, handler.SeleniumConfig.ChromeDriverPort))
+func (handler *DiscordHandlerImpl) RunBot(username string, password string) error {
+	driver, err := selenium.NewRemote(handler.Caps, fmt.Sprintf("http://%s:%s/wd/hub", handler.SeleniumConfig.ChromeDriverIP, handler.SeleniumConfig.ChromeDriverPort))
 	if err != nil {
 		return fmt.Errorf("error creating new WebDriver session: %v", err)
 	}
-	defer driver.Quit()
-
+	defer driver.Close()
 	if err := driver.Get(handler.SeleniumConfig.TargetURL); err != nil {
 		return fmt.Errorf("error opening URL: %v", err)
 	}
@@ -58,7 +47,7 @@ func (handler *DiscordHandlerImpl) RunBot(username, password string) error {
 		if err != nil {
 			return false, err
 		}
-		return url == "https://academia.pnj.ac.id/dashboard", nil // Adjust the URL as needed
+		return url == handler.SeleniumConfig.TargetURL, nil
 	})
 	if err != nil {
 		return fmt.Errorf("error waiting for dashboard URL: %v", err)

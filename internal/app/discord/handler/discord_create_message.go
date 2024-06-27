@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"discord-bot/internal/model/web"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -37,31 +37,56 @@ func (handler *DiscordHandlerImpl) MessageCreate(s *discordgo.Session, m *discor
 		return
 	}
 
-	if args[1] == "login" {
-		fmt.Println("args login ", len(args))
-		if len(args) < 4 {
-			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username and password are required")
+	if args[1] == "register" {
+		fmt.Println("args register ", len(args))
+		if len(args) < 5 {
+			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username, password and your f ing class are required")
 			return
 		}
 		username := args[2]
 		password := args[3]
-		fmt.Println("username & pass", username, password)
+		class := args[4]
+		fmt.Println("username, pass, class", username, password, class)
 		s.ChannelMessageSend(m.ChannelID, "wait a sec yea?")
-
-		_, err := handler.Cron.AddFunc("* * * * *", func() {
-			if err := handler.RunBot(username, password); err != nil {
-				fmt.Println("error :", err)
-				if strings.Contains(err.Error(), "cannot find present button") {
-					s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
-					return
-				}
-				s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
+		// cron job
+		// _, err := handler.Cron.AddFunc("* * * * *", func() {
+		// 	if err := handler.RunBot(username, password); err != nil {
+		// 		fmt.Println("error :", err)
+		// 		if strings.Contains(err.Error(), "cannot find present button") {
+		// 			s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
+		// 			return
+		// 		}
+		// 		s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
+		// 		return
+		// 	}
+		// 	s.ChannelMessageSend(m.ChannelID, "your status is now present. thank me later dog.")
+		// })
+		// if err != nil {
+		// 	log.Fatalf("Error scheduling cron job: %v", err)
+		// }
+		request := web.DiscordRegister{
+			Username: username,
+			Password: password,
+			Class:    class,
+		}
+		if err := handler.Service.Register(&request); err != nil {
+			if strings.Contains(err.Error(), "exists") {
+				s.ChannelMessageSend(m.ChannelID, "ayy dumbass, you are registered in my database so dont call that function again bitch.")
 				return
 			}
-			s.ChannelMessageSend(m.ChannelID, "your status is now present. thank me later dog.")
-		})
-		if err != nil {
-			log.Fatalf("Error scheduling cron job: %v", err)
+			s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
+			return
 		}
+		if err := handler.RunBot(username, password); err != nil {
+			fmt.Println("error :", err)
+			if strings.Contains(err.Error(), "cannot find present button") {
+				s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
+				s.ChannelMessageSend(m.ChannelID, "your data is now in my database ^-^.")
+				return
+			}
+			s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
+			return
+		}
+		s.ChannelMessageSend(m.ChannelID, "your status is now present. thank me later dog.")
 	}
 }

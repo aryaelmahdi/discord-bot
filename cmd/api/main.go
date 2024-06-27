@@ -4,6 +4,7 @@ import (
 	"discord-bot/configs"
 	"discord-bot/internal/app"
 	"discord-bot/internal/infrastructure/discord"
+	"discord-bot/internal/infrastructure/mysql"
 	"discord-bot/internal/infrastructure/selenium"
 	"fmt"
 	"os"
@@ -30,10 +31,10 @@ func main() {
 	}
 	defer selService.Stop()
 
-	// db, err := mysql.NewMySQLConnection(&config.MySQL)
-	// if err != nil {
-	// 	fmt.Errorf("cannot connect to mysql : ", err)
-	// }
+	db, err := mysql.NewMySQLConnection(&config.MySQL)
+	if err != nil {
+		fmt.Errorf("cannot connect to mysql : ", err)
+	}
 
 	sess, err := discord.InitDiscord(&config.BotToken)
 	if err != nil {
@@ -41,7 +42,7 @@ func main() {
 	}
 
 	fmt.Println("prefix ", config.BotToken.Prefix)
-	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium, c, caps)
+	app.InitApp(db, validate, sess, config.BotToken.Prefix, &config.Selenium, c, caps)
 
 	c.Start()
 

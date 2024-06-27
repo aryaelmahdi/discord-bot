@@ -1,11 +1,22 @@
 package repository
 
+import (
+	"discord-bot/internal/model/domain"
+
+	"gorm.io/gorm"
+)
+
 type DiscordRepository interface {
-	Login(username string, password string) error
+	Register(request *domain.Users) error
+	IsExists(username string) bool
 }
 
-type DiscordRepositoryImpl struct{}
+type DiscordRepositoryImpl struct {
+	DB *gorm.DB
+}
 
-func NewDiscordRepository() DiscordRepository {
-	return &DiscordRepositoryImpl{}
+func NewDiscordRepository(db *gorm.DB) DiscordRepository {
+	return &DiscordRepositoryImpl{
+		DB: db,
+	}
 }

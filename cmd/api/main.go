@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"github.com/go-playground/validator"
+	"github.com/robfig/cron/v3"
 )
 
 func main() {
@@ -18,8 +19,15 @@ func main() {
 		fmt.Println("cannot initialize config : " + err.Error())
 	}
 
-	// c := cron.New()
+	c := cron.New()
+	defer c.Stop()
+
 	validate := validator.New()
+
+	// db, err := mysql.NewMySQLConnection(&config.MySQL)
+	// if err != nil {
+	// 	fmt.Errorf("cannot connect to mysql : ", err)
+	// }
 
 	sess, err := discord.InitDiscord(&config.BotToken)
 	if err != nil {
@@ -27,7 +35,9 @@ func main() {
 	}
 
 	fmt.Println("prefix ", config.BotToken.Prefix)
-	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium)
+	app.InitApp(validate, sess, config.BotToken.Prefix, &config.Selenium, c)
+
+	c.Start()
 
 	defer sess.Close()
 

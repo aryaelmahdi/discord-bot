@@ -1,6 +1,6 @@
 package web
 
-type DiscordLogin struct {
+type DiscordRegister struct {
 	Username string `validate:"required"`
 	Password string `validate:"required"`
 }

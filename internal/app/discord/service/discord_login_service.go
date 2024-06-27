@@ -4,7 +4,7 @@ import (
 	"discord-bot/internal/model/web"
 )
 
-func (service *DiscordServiceImpl) Login(request *web.DiscordLogin) error {
+func (service *DiscordServiceImpl) Register(request *web.DiscordRegister) error {
 	if err := service.Validate.Struct(request); err != nil {
 		return err
 	}

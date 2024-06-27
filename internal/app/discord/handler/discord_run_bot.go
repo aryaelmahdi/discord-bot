@@ -27,6 +27,7 @@ func (handler *DiscordHandlerImpl) RunBot(username, password string) error {
 	if err := driver.Get(handler.SeleniumConfig.TargetURL); err != nil {
 		return fmt.Errorf("error opening URL: %v", err)
 	}
+	time.Sleep(3000 * time.Millisecond)
 
 	usernameField, err := driver.FindElement(selenium.ByCSSSelector, "input[placeholder='Username']")
 	if err != nil {
@@ -75,51 +76,31 @@ func (handler *DiscordHandlerImpl) RunBot(username, password string) error {
 	}
 
 	time.Sleep(3000 * time.Millisecond)
-
-	// Use explicit wait to check for the 'Hadir' button
-	// err = driver.WaitWithTimeout(func(d selenium.WebDriver) (bool, error) {
-	// 	_, err := d.FindElement(selenium.ByXPATH, "//button[contains(text(), ' Hadir ')]")
-	// 	if err != nil {
-	// 		return false, nil
-	// 	}
-	// 	return true, nil
-	// }, 10*time.Second)
-	// if err != nil {
-	// 	return fmt.Errorf("error finding 'Hadir' button: %v", err)
-	// }
-
-	// clicking present button
-	presentButton, err := driver.FindElement(selenium.ByXPATH, "//button[contains(text(), ' Hadir ')]")
+	presentButton, err := driver.FindElements(selenium.ByXPATH, "//button[contains(text(), ' Hadir ')]")
 	if err != nil {
 		return fmt.Errorf("cannot find present button: %v", err)
 	}
 
-	if err := presentButton.Click(); err != nil {
-		return fmt.Errorf("error clicking Present button: %v", err)
+	fmt.Println("buttons found :", len(presentButton))
+	if len(presentButton) == 0 {
+		return fmt.Errorf("cannot find present button")
 	}
 
-	confirmationButton, err := driver.FindElement(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
-	if err != nil {
-		return fmt.Errorf("error finding Confirmation Button %v", err)
+	for _, button := range presentButton {
+		if err := button.Click(); err != nil {
+			return fmt.Errorf("error clicking 'Hadir' button: %v", err)
+		}
+
+		confirmationButton, err := driver.FindElement(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
+		if err != nil {
+			return fmt.Errorf("error finding Confirmation Button %v", err)
+		}
+		fmt.Println("found confirmation button", confirmationButton)
+
+		if err := confirmationButton.Click(); err != nil {
+			return fmt.Errorf("error clicking Confirmation Button %v", err)
+		}
 	}
-	fmt.Println("found confirmation button", confirmationButton)
-
-	// if err := confirmationButton.Click(); err != nil {
-	// 	return fmt.Errorf("error clicking Confirmation Button %v", err)
-	// }
-
-	// check if you are present or not
-	// time.Sleep(500 * time.Millisecond)
-	// status, err := driver.FindElements(selenium.ByXPATH, "//b[contains(@class, 'text-success') and text()='Hadir']")
-	// if err != nil {
-	// 	return fmt.Errorf("error finding elements with text 'Hadir': %v", err)
-	// }
-	// if len(status) > 0 {
-	// 	fmt.Println("Found Present Status Academia on the page.")
-	// 	return fmt.Errorf("status = hadir")
-	// } else {
-	// 	fmt.Println("Present Status not found on the page.")
-	// }
 
 	return nil
 }

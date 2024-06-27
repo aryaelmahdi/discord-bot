@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -35,29 +36,32 @@ func (handler *DiscordHandlerImpl) MessageCreate(s *discordgo.Session, m *discor
 		s.ChannelMessageSend(m.ChannelID, "Use 'digidaw login <username> <password>' to do login")
 		return
 	}
-	username, password := "", ""
+
 	if args[1] == "login" {
 		fmt.Println("args login ", len(args))
 		if len(args) < 4 {
 			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username and password are required")
 			return
 		}
-		if args[2] == "" || args[3] == "" {
-			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username and password are required")
-			return
-		}
-		username = args[2]
-		password = args[3]
+		username := args[2]
+		password := args[3]
 		fmt.Println("username & pass", username, password)
 		s.ChannelMessageSend(m.ChannelID, "wait a sec yea?")
-	}
-	if err := handler.RunBot(username, password); err != nil {
-		fmt.Println("error :", err)
-		if strings.Contains(err.Error(), "cannot find present button") {
-			s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
-			return
+
+		_, err := handler.Cron.AddFunc("* * * * *", func() {
+			if err := handler.RunBot(username, password); err != nil {
+				fmt.Println("error :", err)
+				if strings.Contains(err.Error(), "cannot find present button") {
+					s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")
+					return
+				}
+				s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
+				return
+			}
+			s.ChannelMessageSend(m.ChannelID, "your status is now present. thank me later dog.")
+		})
+		if err != nil {
+			log.Fatalf("Error scheduling cron job: %v", err)
 		}
-		return
 	}
-	s.ChannelMessageSend(m.ChannelID, "yeay logged in to academia pnj")
 }

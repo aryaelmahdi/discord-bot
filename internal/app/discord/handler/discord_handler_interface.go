@@ -5,10 +5,11 @@ import (
 	"discord-bot/internal/app/discord/service"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/robfig/cron/v3"
 )
 
 type DiscordHandler interface {
-	Login(s *discordgo.Session, i *discordgo.InteractionCreate) error
+	// Login(s *discordgo.Session, i *discordgo.InteractionCreate) error
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
 	MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate)
 	RunBot(username, password string) error
@@ -18,12 +19,14 @@ type DiscordHandlerImpl struct {
 	Service        service.DiscordService
 	Prefix         string
 	SeleniumConfig *configs.SeleniumConfig
+	Cron           *cron.Cron
 }
 
-func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig) DiscordHandler {
+func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron) DiscordHandler {
 	return &DiscordHandlerImpl{
 		Service:        service,
 		Prefix:         prefix,
 		SeleniumConfig: selenium,
+		Cron:           cron,
 	}
 }

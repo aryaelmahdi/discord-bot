@@ -8,7 +8,7 @@ import (
 )
 
 type DiscordService interface {
-	Login(request *web.DiscordLogin) error
+	Register(request *web.DiscordRegister) error
 }
 
 type DiscordServiceImpl struct {

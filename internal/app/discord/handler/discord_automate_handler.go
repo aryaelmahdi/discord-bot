@@ -21,7 +21,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -42,7 +42,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -64,7 +64,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -86,7 +86,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -107,7 +107,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -129,7 +129,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -150,7 +150,7 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
@@ -163,16 +163,18 @@ func (handler *DiscordHandlerImpl) AutomatedLogin6A(s *discordgo.Session, m *dis
 	_, err = handler.Cron.AddFunc("20 13 * * 5", func() {
 		fmt.Println("friday job")
 		res, err := handler.Service.GetAllUsers()
+		fmt.Println(res)
 		if err != nil {
 			fmt.Errorf(err.Error())
 			s.ChannelMessageSend(m.ChannelID, err.Error())
 			return
 		}
 		for _, user := range res {
+			fmt.Println("user :", user)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
-				return
+				continue
 			}
 			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}

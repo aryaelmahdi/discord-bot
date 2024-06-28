@@ -21,26 +21,25 @@ func (handler *DiscordHandlerImpl) DiscordCommandHandler(s *discordgo.Session, m
 	}
 
 	args := strings.Split(m.Content, " ")
+	fmt.Println(args)
 	if args[0] != handler.Prefix {
 		return
 	}
 
+	fmt.Println("masuk 1")
 	if args[1] == "hello" {
-		fmt.Println("args hello")
-		s.ChannelMessageSend(m.ChannelID, "fuck you bitch.")
+		s.ChannelMessageSend(m.ChannelID, "sup bradaah??.")
 		return
 	}
 
 	if args[1] == "help" {
-		fmt.Println("args hello")
-		s.ChannelMessageSend(m.ChannelID, "Use 'digidaw login <username> <password> <class>' to do login")
+		s.ChannelMessageSend(m.ChannelID, "toss in 'digidaw login <username> <password> <class>' to do register")
 		return
 	}
 
 	if args[1] == "register" {
-		fmt.Println("args register ", len(args))
 		if len(args) < 5 {
-			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username, password and your f ing class are required")
+			s.ChannelMessageSend(m.ChannelID, "u stupid or what? username, password and your f ing class are required. ya know what i mean? huh.")
 			return
 		}
 		username := args[2]

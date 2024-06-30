@@ -18,6 +18,7 @@ type MySQLConfig struct {
 type SeleniumConfig struct {
 	SeleniumPort     string
 	TargetURL        string
+	DashboardURL     string
 	ChromeDriverPath string
 	ChromeDriverPort string
 	ChromeDriverIP   string
@@ -56,6 +57,7 @@ func InitConfig() (*AppConfig, error) {
 		Selenium: SeleniumConfig{
 			SeleniumPort:     os.Getenv("SELENIUM_PORT"),
 			TargetURL:        os.Getenv("TARGET_URL"),
+			DashboardURL:     os.Getenv("DASHBOARD_URL"),
 			ChromeDriverPath: os.Getenv("CHROME_DRIVER_PATH"),
 			ChromeDriverPort: os.Getenv("CHROME_DRIVER_PORT"),
 			ChromeDriverIP:   os.Getenv("CHROME_DRIVER_IP"),

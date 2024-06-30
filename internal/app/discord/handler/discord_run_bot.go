@@ -47,7 +47,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 		if err != nil {
 			return false, err
 		}
-		return url == handler.SeleniumConfig.TargetURL, nil
+		return url == handler.SeleniumConfig.DashboardURL, nil
 	})
 	if err != nil {
 		return fmt.Errorf("error waiting for dashboard URL: %v", err)

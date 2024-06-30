@@ -18,6 +18,7 @@ RUN apt-get update && \
     wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/bin/ && \
     chmod +x /usr/bin/chromedriver && \
+    ln -s /usr/bin/chromedriver-linux64/chromedriver /usr/bin/chromedriver && \
     rm /tmp/chromedriver.zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

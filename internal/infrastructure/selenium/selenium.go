@@ -9,9 +9,9 @@ import (
 )
 
 func InitSelenium(config *configs.SeleniumConfig) (*selenium.Service, selenium.Capabilities, error) {
-	cdPort, _ := strconv.Atoi(config.ChromeDriverPort)
+	seleniumPort, _ := strconv.Atoi(config.SeleniumPort)
 	caps := selenium.Capabilities{"browserName": "chrome"}
-	service, err := selenium.NewChromeDriverService(config.ChromeDriverPath, cdPort)
+	service, err := selenium.NewChromeDriverService(config.ChromeDriverPath, seleniumPort)
 	if err != nil {
 		return nil, nil, fmt.Errorf("Error starting ChromeDriver server: ", err)
 	}

@@ -15,9 +15,9 @@ RUN apt-get update && \
     wget -q -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y ./google-chrome-stable_current_amd64.deb || apt-get install -y -f && \
     rm google-chrome-stable_current_amd64.deb && \
-    wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver_linux64.zip && \
+    wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/bin/ && \
-    chmod +x /usr/bin/chromedriver && \
+    chmod +x /usr/bin/chromedriver-linux64/chromedriver && \
     ln -s /usr/bin/chromedriver-linux64/chromedriver /usr/bin/chromedriver && \
     rm /tmp/chromedriver.zip && \
     apt-get clean && \

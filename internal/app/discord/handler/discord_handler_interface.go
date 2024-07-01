@@ -14,7 +14,23 @@ type DiscordHandler interface {
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
 	DiscordCommandHandler(s *discordgo.Session, m *discordgo.MessageCreate)
 	RunBot(username, password string) error
-	AutomatedLogin6A(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AMonday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AMonday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6ATuesday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AWednesday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AWednesday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AThursday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AThursday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AFriday(s *discordgo.Session, m *discordgo.MessageCreate)
+
+	Login6BTuesday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BTuesday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BWednesday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BWednesday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BWednesday3(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BThursday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BThursday2(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BThursday3(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 type DiscordHandlerImpl struct {

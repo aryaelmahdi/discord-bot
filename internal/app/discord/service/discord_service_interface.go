@@ -10,7 +10,8 @@ import (
 
 type DiscordService interface {
 	Register(request *web.DiscordRegister) error
-	GetAllUsers() ([]domain.Users, error)
+	Get6A() ([]domain.Users, error)
+	Get6B() ([]domain.Users, error)
 }
 
 type DiscordServiceImpl struct {

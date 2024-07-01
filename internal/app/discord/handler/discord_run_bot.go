@@ -53,7 +53,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 		return fmt.Errorf("error waiting for dashboard URL: %v", err)
 	}
 
-	dashboard, err := driver.FindElements(selenium.ByXPATH, "//*[contains(text(), 'SPIRIT Academia')]")
+	dashboard, err := driver.FindElements(selenium.ByCSSSelector, "button.btn.btn-primary")
 	if err != nil {
 		return fmt.Errorf("error finding elements with text 'SPIRIT Academia': %v", err)
 	}
@@ -64,8 +64,8 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 		return fmt.Errorf("dashboard not found: %v", err)
 	}
 
-	time.Sleep(3000 * time.Millisecond)
-	presentButton, err := driver.FindElements(selenium.ByXPATH, "//button[contains(text(), ' Hadir ')]")
+	time.Sleep(10000 * time.Millisecond)
+	presentButton, err := driver.FindElements(selenium.ByXPATH, "//button[@type='button' and contains(@class, 'btn-primary') and text()=' Hadir ']")
 	if err != nil {
 		return fmt.Errorf("cannot find present button: %v", err)
 	}
@@ -80,14 +80,18 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 			return fmt.Errorf("error clicking 'Hadir' button: %v", err)
 		}
 
-		confirmationButton, err := driver.FindElement(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
+		confirmationButtons, err := driver.FindElements(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
 		if err != nil {
 			return fmt.Errorf("error finding Confirmation Button %v", err)
 		}
-		fmt.Println("found confirmation button", confirmationButton)
+		fmt.Println("found confirmation button", confirmationButtons)
 
-		if err := confirmationButton.Click(); err != nil {
-			return fmt.Errorf("error clicking Confirmation Button %v", err)
+		for _, confirmationButton := range confirmationButtons {
+			time.Sleep(5000 * time.Millisecond)
+			if err := confirmationButton.Click(); err != nil {
+				return fmt.Errorf("error clicking Confirmation Button %v", err)
+			}
+			fmt.Println("clicked")
 		}
 	}
 

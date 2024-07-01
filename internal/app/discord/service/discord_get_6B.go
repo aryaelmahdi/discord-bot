@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-func (service *DiscordServiceImpl) GetAllUsers() ([]domain.Users, error) {
-	res := service.Repository.GetAllUsers()
+func (service *DiscordServiceImpl) Get6B() ([]domain.Users, error) {
+	res := service.Repository.Get6B()
 	if len(res) == 0 {
 		return nil, fmt.Errorf("no users found")
 	}

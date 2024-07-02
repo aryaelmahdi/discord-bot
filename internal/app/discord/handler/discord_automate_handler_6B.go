@@ -2,18 +2,16 @@ package handler
 
 import (
 	"fmt"
+	"log"
 	"time"
-
-	"github.com/bwmarrin/discordgo"
 )
 
-func (handler *DiscordHandlerImpl) Login6BTuesday(s *discordgo.Session, m *discordgo.MessageCreate) {
-	_, err := handler.Cron.AddFunc("30 7 * * 1", func() {
+func (handler *DiscordHandlerImpl) Login6BTuesday() {
+	_, err := handler.Cron.AddFunc("30 7 * * 2", func() {
 		fmt.Println("test job 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		fmt.Println("res B : ", res)
@@ -21,180 +19,163 @@ func (handler *DiscordHandlerImpl) Login6BTuesday(s *discordgo.Session, m *disco
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
+				log.Printf("error: %v", err)
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BTuesday2(s *discordgo.Session, m *discordgo.MessageCreate) {
-	_, err := handler.Cron.AddFunc("50 10 * * 1", func() {
-		fmt.Println("monday job 2")
+func (handler *DiscordHandlerImpl) Login6BTuesday2() {
+	_, err := handler.Cron.AddFunc("50 10 * * 2", func() {
+		fmt.Println("tuesday job 2 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
+				log.Printf("error: %v", err)
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BWednesday(s *discordgo.Session, m *discordgo.MessageCreate) {
-	_, err := handler.Cron.AddFunc("30 7 * * 2", func() {
-		fmt.Println("tuesday job")
+func (handler *DiscordHandlerImpl) Login6BWednesday() {
+	_, err := handler.Cron.AddFunc("30 7 * * 3", func() {
+		fmt.Println("wednesday job 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
+				log.Printf("error: %v", err)
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BWednesday2(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (handler *DiscordHandlerImpl) Login6BWednesday2() {
 	_, err := handler.Cron.AddFunc("50 10 * * 3", func() {
-		fmt.Println("monday job 2")
+		fmt.Println("wednesday job 2 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
+				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BWednesday3(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (handler *DiscordHandlerImpl) Login6BWednesday3() {
 	_, err := handler.Cron.AddFunc("15 15 * * 3", func() {
+		fmt.Println("wednesday job 3 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
+				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BThursday(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (handler *DiscordHandlerImpl) Login6BThursday() {
 	_, err := handler.Cron.AddFunc("30 7 * * 4", func() {
+		fmt.Println("thursday job 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
+				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BThursday2(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (handler *DiscordHandlerImpl) Login6BThursday2() {
 	_, err := handler.Cron.AddFunc("50 10 * * 4", func() {
+		fmt.Println("thursday job 2 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
+				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }
 
-func (handler *DiscordHandlerImpl) Login6BThursday3(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (handler *DiscordHandlerImpl) Login6BThursday3() {
 	_, err := handler.Cron.AddFunc("15 15 * * 5", func() {
+		fmt.Println("thursday job 3 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
-			fmt.Errorf(err.Error())
-			s.ChannelMessageSend(m.ChannelID, err.Error())
+			log.Printf("error: %v", err)
 			return
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
 			if err := handler.RunBot(user.Username, user.Password); err != nil {
-				fmt.Errorf(err.Error())
+				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("hey, i aint gonna lie i cant logged in to %s", user.Username))
 				continue
 			}
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("thank me later %s for this shit. youre in", user.Username))
 		}
 	})
 	if err != nil {
-		fmt.Errorf("cron job error: ", err)
+		log.Printf("error: %v", err)
 	}
 }

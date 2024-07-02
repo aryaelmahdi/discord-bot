@@ -2,30 +2,33 @@ package routes
 
 import (
 	"github.com/bwmarrin/discordgo"
-	"github.com/robfig/cron/v3"
 )
 
-func (routes *DiscordRoutesImpl) InitRoutes(sess *discordgo.Session, cron *cron.Cron) {
+func (routes *DiscordRoutesImpl) InitRoutes(sess *discordgo.Session) {
 	// sess.AddHandler(routes.Handler.CommandHandler)
 	sess.AddHandler(routes.Handler.DiscordCommandHandler)
 
 	// Login 6A
-	sess.AddHandler(routes.Handler.Login6AMonday)
-	sess.AddHandler(routes.Handler.Login6AMonday2)
-	sess.AddHandler(routes.Handler.Login6ATuesday)
-	sess.AddHandler(routes.Handler.Login6AWednesday)
-	sess.AddHandler(routes.Handler.Login6AWednesday2)
-	sess.AddHandler(routes.Handler.Login6AThursday)
-	sess.AddHandler(routes.Handler.Login6AThursday2)
-	sess.AddHandler(routes.Handler.Login6AFriday)
+	go func() {
+		routes.Handler.Login6AMonday()
+		routes.Handler.Login6AMonday2()
+		routes.Handler.Login6ATuesday()
+		routes.Handler.Login6AWednesday()
+		routes.Handler.Login6AWednesday2()
+		routes.Handler.Login6AThursday()
+		routes.Handler.Login6AThursday2()
+		routes.Handler.Login6AFriday()
+	}()
 
 	// Login 6B
-	sess.AddHandler(routes.Handler.Login6BTuesday)
-	sess.AddHandler(routes.Handler.Login6BTuesday2)
-	sess.AddHandler(routes.Handler.Login6BWednesday)
-	sess.AddHandler(routes.Handler.Login6BWednesday2)
-	sess.AddHandler(routes.Handler.Login6BWednesday3)
-	sess.AddHandler(routes.Handler.Login6BThursday)
-	sess.AddHandler(routes.Handler.Login6BThursday2)
-	sess.AddHandler(routes.Handler.Login6BThursday3)
+	go func() {
+		routes.Handler.Login6BTuesday()
+		routes.Handler.Login6BTuesday2()
+		routes.Handler.Login6BWednesday()
+		routes.Handler.Login6BWednesday2()
+		routes.Handler.Login6BWednesday3()
+		routes.Handler.Login6BThursday()
+		routes.Handler.Login6BThursday2()
+		routes.Handler.Login6BThursday3()
+	}()
 }

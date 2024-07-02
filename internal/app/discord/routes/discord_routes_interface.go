@@ -4,11 +4,10 @@ import (
 	"discord-bot/internal/app/discord/handler"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/robfig/cron/v3"
 )
 
 type DiscordRoutes interface {
-	InitRoutes(sess *discordgo.Session, cron *cron.Cron)
+	InitRoutes(sess *discordgo.Session)
 }
 
 type DiscordRoutesImpl struct {

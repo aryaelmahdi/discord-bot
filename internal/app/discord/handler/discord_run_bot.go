@@ -2,16 +2,35 @@ package handler
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/tebeka/selenium"
+	"github.com/tebeka/selenium/chrome"
 )
 
 func (handler *DiscordHandlerImpl) RunBot(username string, password string) error {
-	driver, err := selenium.NewRemote(handler.Caps, fmt.Sprintf("http://%s:%s/wd/hub", handler.SeleniumConfig.ChromeDriverIP, handler.SeleniumConfig.ChromeDriverPort))
+	chromeCaps := chrome.Capabilities{
+		Args: []string{
+			"--headless",
+			"--disable-gpu",
+			"--no-sandbox",
+		},
+	}
+	seleniumPort, _ := strconv.Atoi(handler.SeleniumConfig.SeleniumPort)
+	caps := selenium.Capabilities{"browserName": "chrome"}
+	caps.AddChrome(chromeCaps)
+	service, err := selenium.NewChromeDriverService(handler.SeleniumConfig.ChromeDriverPath, seleniumPort)
+	if err != nil {
+		return fmt.Errorf("Error starting ChromeDriver server: ", err)
+	}
+	defer service.Stop()
+
+	driver, err := selenium.NewRemote(caps, fmt.Sprintf("http://%s:%s/wd/hub", handler.SeleniumConfig.ChromeDriverIP, handler.SeleniumConfig.ChromeDriverPort))
 	if err != nil {
 		return fmt.Errorf("error creating new WebDriver session: %v", err)
 	}
+
 	defer driver.Close()
 	if err := driver.Get(handler.SeleniumConfig.TargetURL); err != nil {
 		return fmt.Errorf("error opening URL: %v", err)
@@ -63,8 +82,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 		fmt.Println("SPIRIT Academia not found on the page.")
 		return fmt.Errorf("dashboard not found: %v", err)
 	}
-
-	time.Sleep(10000 * time.Millisecond)
+	time.Sleep(10 * time.Second)
 	presentButton, err := driver.FindElements(selenium.ByXPATH, "//button[@type='button' and contains(@class, 'btn-primary') and text()=' Hadir ']")
 	if err != nil {
 		return fmt.Errorf("cannot find present button: %v", err)
@@ -76,24 +94,58 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 	}
 
 	for _, button := range presentButton {
+		if _, err := driver.ExecuteScript("arguments[0].scrollIntoView(true);", []interface{}{button}); err != nil {
+			fmt.Println("Error scrolling to element: ", err)
+			return fmt.Errorf("error scrolling to element: %v", err)
+		}
+		if err := driver.WaitWithTimeout(selenium.Condition(func(wd selenium.WebDriver) (bool, error) {
+			isDisplayed, err := button.IsDisplayed()
+			if err != nil {
+				return false, err
+			}
+			return isDisplayed, nil
+		}), 10*time.Second); err != nil {
+			fmt.Println("Error waiting for element to be clickable: ", err)
+		}
 		if err := button.Click(); err != nil {
 			return fmt.Errorf("error clicking 'Hadir' button: %v", err)
 		}
 
-		confirmationButtons, err := driver.FindElements(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
+		confirmationButton, err := driver.FindElement(selenium.ByXPATH, "//button[contains(text(), 'Konfirmasi')]")
 		if err != nil {
 			return fmt.Errorf("error finding Confirmation Button %v", err)
 		}
-		fmt.Println("found confirmation button", confirmationButtons)
-
-		for _, confirmationButton := range confirmationButtons {
-			time.Sleep(5000 * time.Millisecond)
-			if err := confirmationButton.Click(); err != nil {
-				return fmt.Errorf("error clicking Confirmation Button %v", err)
+		fmt.Println("found confirmation button", confirmationButton)
+		if _, err := driver.ExecuteScript("arguments[0].scrollIntoView(true);", []interface{}{confirmationButton}); err != nil {
+			fmt.Println("Error scrolling to element: ", err)
+			return fmt.Errorf("error scrolling to element: %v", err)
+		}
+		if err := driver.WaitWithTimeout(selenium.Condition(func(wd selenium.WebDriver) (bool, error) {
+			isDisplayed, err := confirmationButton.IsDisplayed()
+			if err != nil {
+				return false, err
 			}
-			fmt.Println("clicked")
+			return isDisplayed, nil
+		}), 10*time.Second); err != nil {
+			fmt.Println("Error waiting for element to be clickable: ", err)
+		}
+		time.Sleep(5 * time.Second)
+		if err := confirmationButton.Click(); err != nil {
+			return fmt.Errorf("error clicking Confirmation Button %v", err)
+		}
+		fmt.Println("clicked")
+	}
+
+	presentButton, err = driver.FindElements(selenium.ByXPATH, "//button[@type='button' and contains(@class, 'btn-primary') and text()=' Hadir ']")
+	if err != nil {
+		fmt.Println("no present button found")
+	}
+	if len(presentButton) != 0 {
+		if err := handler.RunBot(username, password); err != nil {
+			return fmt.Errorf("error ", err)
 		}
 	}
+	fmt.Sprintf("username : %s success", username)
 
 	return nil
 }

@@ -6,7 +6,6 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/robfig/cron/v3"
-	"github.com/tebeka/selenium"
 )
 
 type DiscordHandler interface {
@@ -14,23 +13,23 @@ type DiscordHandler interface {
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
 	DiscordCommandHandler(s *discordgo.Session, m *discordgo.MessageCreate)
 	RunBot(username, password string) error
-	Login6AMonday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AMonday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6ATuesday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AWednesday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AWednesday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AThursday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AThursday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6AFriday(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6AMonday()
+	Login6AMonday2()
+	Login6ATuesday()
+	Login6AWednesday()
+	Login6AWednesday2()
+	Login6AThursday()
+	Login6AThursday2()
+	Login6AFriday()
 
-	Login6BTuesday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BTuesday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BWednesday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BWednesday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BWednesday3(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BThursday(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BThursday2(s *discordgo.Session, m *discordgo.MessageCreate)
-	Login6BThursday3(s *discordgo.Session, m *discordgo.MessageCreate)
+	Login6BTuesday()
+	Login6BTuesday2()
+	Login6BWednesday()
+	Login6BWednesday2()
+	Login6BWednesday3()
+	Login6BThursday()
+	Login6BThursday2()
+	Login6BThursday3()
 }
 
 type DiscordHandlerImpl struct {
@@ -38,15 +37,13 @@ type DiscordHandlerImpl struct {
 	Prefix         string
 	SeleniumConfig *configs.SeleniumConfig
 	Cron           *cron.Cron
-	Caps           selenium.Capabilities
 }
 
-func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron, caps selenium.Capabilities) DiscordHandler {
+func NewDiscordHandler(service service.DiscordService, prefix string, selenium *configs.SeleniumConfig, cron *cron.Cron) DiscordHandler {
 	return &DiscordHandlerImpl{
 		Service:        service,
 		Prefix:         prefix,
 		SeleniumConfig: selenium,
 		Cron:           cron,
-		Caps:           caps,
 	}
 }

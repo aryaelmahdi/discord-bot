@@ -17,7 +17,7 @@ func (handler *DiscordHandlerImpl) Login6AMonday() {
 		fmt.Println("res A : ", res)
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				continue
 			}
@@ -37,7 +37,7 @@ func (handler *DiscordHandlerImpl) Login6AMonday2() {
 			return
 		}
 		for _, user := range res {
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				continue
 			}
@@ -58,7 +58,7 @@ func (handler *DiscordHandlerImpl) Login6ATuesday() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue
@@ -80,7 +80,7 @@ func (handler *DiscordHandlerImpl) Login6AWednesday() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue
@@ -102,7 +102,7 @@ func (handler *DiscordHandlerImpl) Login6AWednesday2() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue
@@ -124,7 +124,7 @@ func (handler *DiscordHandlerImpl) Login6AThursday() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue
@@ -146,7 +146,7 @@ func (handler *DiscordHandlerImpl) Login6AThursday2() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue
@@ -168,7 +168,7 @@ func (handler *DiscordHandlerImpl) Login6AFriday() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6A(user.Username, user.Password); err != nil {
 				fmt.Println(err.Error())
 				time.Sleep(3 * time.Second)
 				continue

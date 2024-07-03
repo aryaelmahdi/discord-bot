@@ -12,7 +12,8 @@ type DiscordHandler interface {
 	// Login(s *discordgo.Session, i *discordgo.InteractionCreate) error
 	// CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate)
 	DiscordCommandHandler(s *discordgo.Session, m *discordgo.MessageCreate)
-	RunBot(username, password string) error
+	RunBot6A(username, password string) error
+	RunBot6B(username, password string) error
 	Login6AMonday()
 	Login6AMonday2()
 	Login6ATuesday()

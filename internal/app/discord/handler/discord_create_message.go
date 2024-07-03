@@ -60,7 +60,7 @@ func (handler *DiscordHandlerImpl) DiscordCommandHandler(s *discordgo.Session, m
 			s.ChannelMessageSend(m.ChannelID, "an error occurred: "+err.Error())
 			return
 		}
-		if err := handler.RunBot(username, password); err != nil {
+		if err := handler.RunBot6A(username, password); err != nil {
 			fmt.Println("error :", err)
 			if strings.Contains(err.Error(), "cannot find present button") {
 				s.ChannelMessageSend(m.ChannelID, "your status is present already idiot")

@@ -8,7 +8,7 @@ import (
 
 func (handler *DiscordHandlerImpl) Login6BTuesday() {
 	_, err := handler.Cron.AddFunc("30 7 * * 2", func() {
-		fmt.Println("test job 6B")
+		fmt.Println("tuesday job 6B")
 		res, err := handler.Service.Get6B()
 		if err != nil {
 			log.Printf("error: %v", err)
@@ -17,7 +17,7 @@ func (handler *DiscordHandlerImpl) Login6BTuesday() {
 		fmt.Println("res B : ", res)
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				log.Printf("error: %v", err)
 				continue
@@ -38,7 +38,7 @@ func (handler *DiscordHandlerImpl) Login6BTuesday2() {
 			return
 		}
 		for _, user := range res {
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				fmt.Errorf(err.Error())
 				log.Printf("error: %v", err)
 				continue
@@ -59,7 +59,7 @@ func (handler *DiscordHandlerImpl) Login6BWednesday() {
 			return
 		}
 		for _, user := range res {
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				continue
 			}
@@ -80,7 +80,7 @@ func (handler *DiscordHandlerImpl) Login6BWednesday2() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
 				continue
@@ -102,7 +102,7 @@ func (handler *DiscordHandlerImpl) Login6BWednesday3() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
 				continue
@@ -124,7 +124,7 @@ func (handler *DiscordHandlerImpl) Login6BThursday() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
 				continue
@@ -146,7 +146,7 @@ func (handler *DiscordHandlerImpl) Login6BThursday2() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
 				continue
@@ -168,7 +168,7 @@ func (handler *DiscordHandlerImpl) Login6BThursday3() {
 		}
 		for _, user := range res {
 			fmt.Println("user : ", user.Username)
-			if err := handler.RunBot(user.Username, user.Password); err != nil {
+			if err := handler.RunBot6B(user.Username, user.Password); err != nil {
 				log.Printf("error: %v", err)
 				time.Sleep(3 * time.Second)
 				continue

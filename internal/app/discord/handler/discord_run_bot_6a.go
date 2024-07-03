@@ -9,7 +9,7 @@ import (
 	"github.com/tebeka/selenium/chrome"
 )
 
-func (handler *DiscordHandlerImpl) RunBot(username string, password string) error {
+func (handler *DiscordHandlerImpl) RunBot6A(username string, password string) error {
 	chromeCaps := chrome.Capabilities{
 		Args: []string{
 			"--headless",
@@ -17,10 +17,10 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 			"--no-sandbox",
 		},
 	}
-	seleniumPort, _ := strconv.Atoi(handler.SeleniumConfig.SeleniumPort)
+	chromeDriverPort, _ := strconv.Atoi(handler.SeleniumConfig.ChromeDriverPort)
 	caps := selenium.Capabilities{"browserName": "chrome"}
 	caps.AddChrome(chromeCaps)
-	service, err := selenium.NewChromeDriverService(handler.SeleniumConfig.ChromeDriverPath, seleniumPort)
+	service, err := selenium.NewChromeDriverService(handler.SeleniumConfig.ChromeDriverPath, chromeDriverPort)
 	if err != nil {
 		return fmt.Errorf("Error starting ChromeDriver server: ", err)
 	}
@@ -61,13 +61,13 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 	if err := loginButton.Click(); err != nil {
 		return fmt.Errorf("error clicking login button: %v", err)
 	}
-	err = driver.Wait(func(d selenium.WebDriver) (bool, error) {
+	err = driver.WaitWithTimeout(func(d selenium.WebDriver) (bool, error) {
 		url, err := d.CurrentURL()
 		if err != nil {
 			return false, err
 		}
 		return url == handler.SeleniumConfig.DashboardURL, nil
-	})
+	}, 300*time.Second)
 	if err != nil {
 		return fmt.Errorf("error waiting for dashboard URL: %v", err)
 	}
@@ -104,7 +104,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 				return false, err
 			}
 			return isDisplayed, nil
-		}), 10*time.Second); err != nil {
+		}), 300*time.Second); err != nil {
 			fmt.Println("Error waiting for element to be clickable: ", err)
 		}
 		if err := button.Click(); err != nil {
@@ -126,7 +126,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 				return false, err
 			}
 			return isDisplayed, nil
-		}), 10*time.Second); err != nil {
+		}), 300*time.Second); err != nil {
 			fmt.Println("Error waiting for element to be clickable: ", err)
 		}
 		time.Sleep(5 * time.Second)
@@ -141,7 +141,7 @@ func (handler *DiscordHandlerImpl) RunBot(username string, password string) erro
 		fmt.Println("no present button found")
 	}
 	if len(presentButton) != 0 {
-		if err := handler.RunBot(username, password); err != nil {
+		if err := handler.RunBot6A(username, password); err != nil {
 			return fmt.Errorf("error ", err)
 		}
 	}
